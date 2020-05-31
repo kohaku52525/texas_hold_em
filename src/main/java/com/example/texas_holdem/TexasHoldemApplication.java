@@ -1,8 +1,9 @@
 package com.example.texas_holdem;
 
-import com.example.texas_holdem.model.PorkerHand;
+import com.example.texas_holdem.manager.TrumpManager;
 import com.example.texas_holdem.model.Suit;
 import com.example.texas_holdem.model.Trump;
+import com.example.texas_holdem.model.Role;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,20 +13,23 @@ import java.util.*;
 public class TexasHoldemApplication {
 
     public static void main(String[] args) {
+        // Spring-Bootを動かすためのコード
         SpringApplication.run(TexasHoldemApplication.class, args);
+        startPorker();
+    }
+
+    /**
+     * ポーカを始める
+     */
+    private static void startPorker() {
         List<Trump> trumpList = new ArrayList<>();
+
+        // トランプのカードの初期化を行う
+        new TrumpManager().initTrump(trumpList);
+
         List<Trump> hand = new ArrayList<>();
         List<Trump> field = new ArrayList<>();
-
-        for (int i = 1; i < 14; i++) {
-            trumpList.add(new Trump(i, Suit.club));
-            trumpList.add(new Trump(i, Suit.heart));
-            trumpList.add(new Trump(i, Suit.dia));
-            trumpList.add(new Trump(i, Suit.spade));
-        }
-
         Random rand = new Random();
-
         for (int i = 0; i < 2; i++) {
             int randomIndex = rand.nextInt(trumpList.size());
             hand.add(trumpList.get(randomIndex));
@@ -41,7 +45,7 @@ public class TexasHoldemApplication {
         System.out.println(hand);
         System.out.println(field);
 
-        List<Checker.HandsWithMaxNum> hands = new ArrayList<>();
+        List<Role> hands = new ArrayList<>();
         for (int i = 0; i < field.size(); i++) {
             for (int j = i + 1; j < field.size(); j++) {
                 for (int k = j + 1; k < field.size(); k++) {
@@ -56,16 +60,17 @@ public class TexasHoldemApplication {
             }
         }
 
-        Checker.HandsWithMaxNum maxHands = hands.get(0);
+        Role maxHands = hands.get(0);
         for (int i = 1; i < hands.size(); i++) {
-            if (maxHands.getHands().getPower() < hands.get(i).getHands().getPower()) {
+            if (maxHands.getHand().getPower() < hands.get(i).getHand().getPower()) {
                 maxHands = hands.get(i);
-            } else if (maxHands.getHands().getPower() == hands.get(i).getHands().getPower()) {
-                if (maxHands.getMax() > hands.get(i).getMax()) {
+            } else if (maxHands.getHand().getPower() == hands.get(i).getHand().getPower()) {
+                if (maxHands.getLevel() > hands.get(i).getLevel()) {
                     maxHands = hands.get(i);
                 }
             }
         }
-        System.out.println(maxHands.getHands().getHand());
+        System.out.println(maxHands.getHand().getName());
     }
+
 }

@@ -28,7 +28,7 @@ class Checker {
                 maxNum = trump.getNumber();
             }
         }
-        // 数字を降順で並べる
+        // 数字を昇順で並べる
         Collections.sort(numList);
     }
 
@@ -54,7 +54,6 @@ class Checker {
         }
         // その他の役の場合
         else {
-            int i = getNumOfType();
             switch (getNumOfType()) {
                 case 5:
                     porkerHand = PorkerHand.NO_PAIR;
@@ -101,12 +100,13 @@ class Checker {
         return suitList.size() == 1;
     }
 
+    /**
+     * numListに存在する数字の種類の数を返す
+     *
+     * @return numListに存在する数字の種類の数
+     */
     private int getNumOfType() {
-        Set numSet = new HashSet();
-        for (Integer i : numList) {
-            numSet.add(i);
-        }
-        return numSet.size();
+        return numList.stream().distinct().toArray().length;
     }
 
 

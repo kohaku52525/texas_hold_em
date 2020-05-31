@@ -1,5 +1,6 @@
 package com.example.texas_holdem;
 
+import com.example.texas_holdem.manager.TrumpManager;
 import com.example.texas_holdem.model.Suit;
 import com.example.texas_holdem.model.Trump;
 import com.example.texas_holdem.model.Role;
@@ -12,20 +13,23 @@ import java.util.*;
 public class TexasHoldemApplication {
 
     public static void main(String[] args) {
+        // Spring-Bootを動かすためのコード
         SpringApplication.run(TexasHoldemApplication.class, args);
+        startPorker();
+    }
+
+    /**
+     * ポーカを始める
+     */
+    private static void startPorker() {
         List<Trump> trumpList = new ArrayList<>();
+
+        // トランプのカードの初期化を行う
+        new TrumpManager().initTrump(trumpList);
+
         List<Trump> hand = new ArrayList<>();
         List<Trump> field = new ArrayList<>();
-
-        for (int i = 1; i < 14; i++) {
-            trumpList.add(new Trump(i, Suit.CLUB));
-            trumpList.add(new Trump(i, Suit.HEART));
-            trumpList.add(new Trump(i, Suit.DIA));
-            trumpList.add(new Trump(i, Suit.SPADE));
-        }
-
         Random rand = new Random();
-
         for (int i = 0; i < 2; i++) {
             int randomIndex = rand.nextInt(trumpList.size());
             hand.add(trumpList.get(randomIndex));
@@ -68,4 +72,5 @@ public class TexasHoldemApplication {
         }
         System.out.println(maxHands.getHand().getName());
     }
+
 }

@@ -12,15 +12,15 @@ class Checker {
     private int maxNum = 0;
 
     Checker(List<Trump> trumpList) {
-        init();
+        init(trumpList);
     }
 
     /**
      * カードの初期化を行う。
      */
-    private void init() {
+    private void init(List<Trump> list) {
         // フラッシュ・ストレート用にスートと数字で分ける
-        for (Trump trump : trumpList) {
+        for (Trump trump : list) {
             numList.add(trump.getNumber());
             suitList.add(trump.getSuit());
             if (trump.getNumber() > maxNum) {

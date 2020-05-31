@@ -2,6 +2,7 @@ package com.example.texas_holdem;
 
 import com.example.texas_holdem.model.Suit;
 import com.example.texas_holdem.model.Trump;
+import com.example.texas_holdem.model.Role;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -40,7 +41,7 @@ public class TexasHoldemApplication {
         System.out.println(hand);
         System.out.println(field);
 
-        List<Checker.HandsWithMaxNum> hands = new ArrayList<>();
+        List<Role> hands = new ArrayList<>();
         for (int i = 0; i < field.size(); i++) {
             for (int j = i + 1; j < field.size(); j++) {
                 for (int k = j + 1; k < field.size(); k++) {
@@ -55,16 +56,16 @@ public class TexasHoldemApplication {
             }
         }
 
-        Checker.HandsWithMaxNum maxHands = hands.get(0);
+        Role maxHands = hands.get(0);
         for (int i = 1; i < hands.size(); i++) {
-            if (maxHands.getHands().getPower() < hands.get(i).getHands().getPower()) {
+            if (maxHands.getHand().getPower() < hands.get(i).getHand().getPower()) {
                 maxHands = hands.get(i);
-            } else if (maxHands.getHands().getPower() == hands.get(i).getHands().getPower()) {
-                if (maxHands.getMax() > hands.get(i).getMax()) {
+            } else if (maxHands.getHand().getPower() == hands.get(i).getHand().getPower()) {
+                if (maxHands.getLevel() > hands.get(i).getLevel()) {
                     maxHands = hands.get(i);
                 }
             }
         }
-        System.out.println(maxHands.getHands().getHand());
+        System.out.println(maxHands.getHand().getName());
     }
 }

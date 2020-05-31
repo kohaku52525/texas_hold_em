@@ -13,28 +13,31 @@ public enum PorkerHand {
     LOYAL_STRAIGHT_FLASH("ロイヤルストレートフラッシュ", 9);
 
 
-    private final String hand;
+    private final String name;
     private final int power;
     private int num;
 
-    PorkerHand(String hand, int power) {
-        this.hand = hand;
+    PorkerHand(String name, int power) {
+        this.name = name;
         this.power = power;
     }
 
-    public String getHand() {
-        return hand;
+    /**
+     * 役の名前を取得する
+     *
+     * @return 役の名前
+     */
+    public String getName() {
+        return name;
     }
 
+    /**
+     * 役の強さを取得する
+     *
+     * @return 役の強さ
+     */
     public int getPower() {
         return power;
     }
 
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
 }

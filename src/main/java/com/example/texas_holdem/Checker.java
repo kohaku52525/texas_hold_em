@@ -1,6 +1,7 @@
 package com.example.texas_holdem;
 
 import com.example.texas_holdem.model.PorkerHand;
+import com.example.texas_holdem.model.Role;
 import com.example.texas_holdem.model.Suit;
 import com.example.texas_holdem.model.Trump;
 
@@ -34,47 +35,54 @@ class Checker {
     /**
      * 手札のカードで役を作れるか調べる。
      */
-    public HandsWithMaxNum check(){
+    public Role check(){
         boolean isStraight = isStraight();
         boolean isFlash = isFlash();
+        
+        PorkerHand porkerHand;
+        // ストレートフラッシュの場合
         if (isFlash && isStraight) {
-            return new HandsWithMaxNum(PorkerHand.STRAIGHT_FLASH, maxNum);
+            porkerHand = PorkerHand.STRAIGHT_FLASH;
         }
+        // フラッシュの場合
         else if (isFlash) {
-            return new HandsWithMaxNum(PorkerHand.FLASH, maxNum);
+            porkerHand = PorkerHand.FLASH;
         }
+        // ストレートの場合
         else if (isStraight) {
-            return new HandsWithMaxNum(PorkerHand.STRAIGHT, maxNum);
+            porkerHand = PorkerHand.STRAIGHT;
         }
+        // その他の役の場合
         else {
             int i = getNumOfType();
-            if (i == 5) {
-                return new HandsWithMaxNum(PorkerHand.NO_PAIR, maxNum);
-            }
-            else if (i == 2) {
-                if (getUsedNum() == 4) {
-                    return new HandsWithMaxNum(PorkerHand.FOUR_CARD, maxNum);
-                } else {
-                    return new HandsWithMaxNum(PorkerHand.FULL_HOUSE, maxNum);
-                }
-            }
-            else if (i == 3) {
-                if (getUsedNum() == 4) {
-                    return new HandsWithMaxNum(PorkerHand.TWO_PAIR, maxNum);
-                } else {
-                    return new HandsWithMaxNum(PorkerHand.THREE_CARD, maxNum);
-                }
-            }
-            else {
-                return new HandsWithMaxNum(PorkerHand.ONE_PAIR, maxNum);
+            switch (getNumOfType()) {
+                case 5:
+                    porkerHand = PorkerHand.NO_PAIR;
+                    break;
+
+                case 3:
+                    porkerHand = getUsedNum() == 4 ? PorkerHand.TWO_PAIR : PorkerHand.THREE_CARD;
+                    break;
+
+                case 2:
+                    porkerHand = getUsedNum() == 4 ? PorkerHand.FOUR_CARD : PorkerHand.FULL_HOUSE;
+                    break;
+
+                default:
+                    porkerHand = PorkerHand.ONE_PAIR;
+                    break;
             }
         }
+
+        return new Role(porkerHand, maxNum);
     }
 
+    /**
+     * ストレートかどうか確認する
+     * 
+     * @return ストレートならtrue
+     */
     private boolean isStraight() {
-        /**
-         * ストレートかどうか確認する
-         */
         for (int i = 0; i < numList.size()-1; i++) {
             if (numList.get(i + 1) - numList.get(i) != 1) {
                 return false;
@@ -83,7 +91,13 @@ class Checker {
         return true;
     }
 
+    /**
+     * フラッシュかどうか判断する
+     * 
+     * @return フラッシュならtrue
+     */
     private boolean isFlash() {
+        // 手札の役が1種類ならフラッシュなのでtrue
         return suitList.size() == 1;
     }
 
@@ -108,21 +122,4 @@ class Checker {
         return count;
     }
 
-    class HandsWithMaxNum{
-        PorkerHand hands;
-        int max;
-
-        HandsWithMaxNum(PorkerHand hands, int max) {
-            this.hands = hands;
-            this.max = max;
-        }
-
-        PorkerHand getHands() {
-            return hands;
-        }
-
-        int getMax() {
-            return max;
-        }
-    }
 }

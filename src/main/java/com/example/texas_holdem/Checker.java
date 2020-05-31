@@ -12,8 +12,14 @@ class Checker {
     private int maxNum = 0;
 
     Checker(List<Trump> trumpList) {
+        init();
+    }
+
+    /**
+     * カードの初期化を行う。
+     */
+    private void init() {
         // フラッシュ・ストレート用にスートと数字で分ける
-        // ToDo isFlashで確認する
         for (Trump trump : trumpList) {
             numList.add(trump.getNumber());
             suitList.add(trump.getSuit());
@@ -21,10 +27,14 @@ class Checker {
                 maxNum = trump.getNumber();
             }
         }
+        // 数字を降順で並べる
         Collections.sort(numList);
     }
 
-    HandsWithMaxNum check(){
+    /**
+     * 手札のカードで役を作れるか調べる。
+     */
+    public HandsWithMaxNum check(){
         boolean isStraight = isStraight();
         boolean isFlash = isFlash();
         if (isFlash && isStraight) {

@@ -1,6 +1,5 @@
 package com.example.texas_holdem;
 
-import com.example.texas_holdem.model.PorkerHand;
 import com.example.texas_holdem.model.Suit;
 import com.example.texas_holdem.model.Trump;
 import org.springframework.boot.SpringApplication;
@@ -18,10 +17,10 @@ public class TexasHoldemApplication {
         List<Trump> field = new ArrayList<>();
 
         for (int i = 1; i < 14; i++) {
-            trumpList.add(new Trump(i, Suit.club));
-            trumpList.add(new Trump(i, Suit.heart));
-            trumpList.add(new Trump(i, Suit.dia));
-            trumpList.add(new Trump(i, Suit.spade));
+            trumpList.add(new Trump(i, Suit.CLUB));
+            trumpList.add(new Trump(i, Suit.HEART));
+            trumpList.add(new Trump(i, Suit.DIA));
+            trumpList.add(new Trump(i, Suit.SPADE));
         }
 
         Random rand = new Random();

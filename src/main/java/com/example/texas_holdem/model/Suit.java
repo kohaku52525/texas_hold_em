@@ -4,8 +4,8 @@ public enum Suit {
     /**
      * トランプのスートのEnumクラス
      */
-    club,
-    spade,
-    heart,
-    dia
+    CLUB,
+    SPADE,
+    HEART,
+    DIA
 }
